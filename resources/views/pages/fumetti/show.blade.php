@@ -5,11 +5,17 @@
 @endsection
 
 @section('main-content')
-    <h1 class="text-center pt-5">{{$elem->title}}</h1>
-    <div>
-        <p>
-            {{$elem->description}}
-        </p>
-    </div>
 
+@if ( session('success') )
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+<div class="card mt-5 text-white" data-bs-theme="dark" style="width: 18rem;">
+    <img src="{{$elem->thumb}}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">{{$elem->title}}</h5>
+      <p class="card-text">{{$elem->description}}</p>
+    </div>
+  </div>
 @endsection

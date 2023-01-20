@@ -45,6 +45,17 @@ class ComicController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+
+
+        $request->validate(
+            [
+                'title' => 'required|max:50'
+            ],
+            [
+                'title.required' => 'Attenzione il campo title è obbligatorio',
+                'title.max' => 'Attenzione il campo non deve superare i 50 caratteri'
+            ]
+        );
         $new_record = new Comic();
         $new_record->fill($data);
         $new_record->save();
@@ -70,9 +81,11 @@ class ComicController extends Controller
      * @param  \App\Models\Comic  $comic
      * @return \Illuminate\Http\Response
      */
-    public function edit(Comic $comic)
+    public function edit($id)
     {
-        //
+        $comic = Comic::findOrFail($id);
+
+        return view('pages.fumetti.edit', compact('comic'));
     }
 
     /**
@@ -82,9 +95,22 @@ class ComicController extends Controller
      * @param  \App\Models\Comic  $comic
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Comic $comic)
+    public function update(Request $request, $id)
     {
-        //
+        $modSpec = $request->all();
+        $comic = Comic::findOrFail($id);
+        $request->validate(
+            [
+                'title' => 'required|max:50'
+            ],
+            [
+                'title.required' => 'il campo title è obbligatorio',
+                'title.max' => 'Troppi caratteri, non oltre i 50'
+            ]
+        );
+        $comic->update($modSpec);
+
+        return redirect()->route('fumetti.show', $comic->id)->with('success', "la modifica è andata buon fine");
     }
 
     /**
@@ -93,8 +119,10 @@ class ComicController extends Controller
      * @param  \App\Models\Comic  $comic
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Comic $comic)
+    public function destroy($id)
     {
-        //
+        $comic = Comic::findOrFail($id);
+        $comic->delete();
+        return redirect()->route('fumetti.index')->with('success', "Hai cancellato con successo la pasta: $comic->title");
     }
 }

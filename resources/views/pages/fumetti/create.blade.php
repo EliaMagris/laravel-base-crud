@@ -5,15 +5,23 @@
 @endsection
 
 @section('main-content')
-    <h1 class="text-center pt-5">Crea un fumetto tutto tuo!</h1>
-
+    @if ($errors->any())
+        <div class="alert alert-danger mt-5">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+        </div>
+    @endif
     <form method="POST" action="{{ route('fumetti.store') }}">
-
         @csrf
-
-        <div class="mb-3">
+        <h1 class="text-center pt-5">Crea un fumetto tutto tuo!</h1>
+        <div class="mb-3 mt-5">
             <label class="form-label">Titolo</label>
-            <input name="title" type="text" class="form-control" id="title">
+            <input name="title" type="text" class="form-control  @error('title') is-invalid @enderror" id="title">
+            @error('title')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="mb-3">

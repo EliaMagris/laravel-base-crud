@@ -1,4 +1,4 @@
-<nav class="navbar position-fixed w-100 navbar-expand-lg bg-body-tertiary" data-bs-theme="light">
+<nav class="navbar z-1 position-fixed w-100 navbar-expand-lg bg-body-tertiary" data-bs-theme="light">
     <div class="container-fluid">
       <a class="navbar-brand" href="{{route('home')}}"></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
